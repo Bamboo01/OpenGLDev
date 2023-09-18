@@ -1,17 +1,17 @@
 # Project: OpenGLDev
 # Makefile created by Dev-C++ 5.11
 
-CPP      = g++.exe
-CC       = gcc.exe
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
 WINDRES  = windres.exe
-OBJ      = main.o math.o
-LINKOBJ  = main.o math.o
-LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -lglu32 -lglut32 -lopengl32 -m32
+OBJ      = main.o vector.o
+LINKOBJ  = main.o vector.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc -lglu32 -lopengl32 -m32 -g3
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
 BIN      = OpenGLDev.exe
-CXXFLAGS = $(CXXINCS) -m32
-CFLAGS   = $(INCS) -m32
+CXXFLAGS = $(CXXINCS) -m32 -g3 -g -std=gnu11
+CFLAGS   = $(INCS) -m32 -g3 -g -std=gnu11 -std=gnu11
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -27,5 +27,5 @@ $(BIN): $(OBJ)
 main.o: main.c
 	$(CC) -c main.c -o main.o $(CFLAGS)
 
-math.o: math.c
-	$(CC) -c math.c -o math.o $(CFLAGS)
+vector.o: vector.c
+	$(CC) -c vector.c -o vector.o $(CFLAGS)
