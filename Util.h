@@ -19,6 +19,8 @@ void* get_element(vector* v, int index);
 int remove_at(vector* v, int index);
 int pop_back(vector* v);
 int pop_front(vector* v);
+int destroy_vector(vector* v);
+
 /*
 END
 */

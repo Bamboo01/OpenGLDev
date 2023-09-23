@@ -57,6 +57,30 @@ struct node
  	else
  		printShid(start->next);
  }
+ 
+ void printVector(vector* v)
+ {
+ 	int numSteps = v->capacity / MAX_DEPTH;
+ 	for (int i = 0; i < numSteps; i++)
+ 	{
+ 		node* start = ((node**)v->data)[i];
+ 		node* next = start;
+ 		for (int n = 0; n < MAX_DEPTH; n++)
+		{
+			printf("------------------------------------\n");
+			if (next->nodePointer)
+ 			{
+ 				printf("Node %p, value %i, next %p \n", next, *(int*)next->nodePointer, next->next);
+ 			}
+ 			else
+ 			{
+ 				printf("Node %p, value 0x0, next %p \n", next, next->next);
+ 			}
+ 			next = next->next;
+		}	
+	}
+ }
+ 
  void printSteps(node* start)
  {
  	printf("==================PRINTING STEPS==================\n");
@@ -151,6 +175,23 @@ node* get_node_at_index(const vector* v, int index)
 		return NULL;
 	else
 		return targetNode;
+}
+
+int destroy_linked_list(node* n)
+{
+	while(n->next != NULL)
+	{
+		node* curr = n;
+		n = n->next;
+		
+		if (curr->nodePointer != NULL)
+		{
+			free(curr->nodePointer);
+		}
+		free(curr);
+	}
+	
+	return 1;
 }
 
 // UTIL FUNCTIONS
@@ -276,6 +317,7 @@ int pop_back(vector* v)
 
 int remove_at(vector* v, int index)
 {	
+	system("cls");
 	if (index == v->size - 1)
 		return pop_back(v);
 	else if (index == 0)
@@ -285,20 +327,34 @@ int remove_at(vector* v, int index)
 	node* finalNode = get_node_at_index(v, v->capacity - 1);
 	finalNode->next = create_node();
 	
+	printVector(v);
+	
 	// For every step ahead of the step this index is in, we push it to point towards the next node
 	int numSteps = v->capacity / MAX_DEPTH;
 	int linkedListIndex = (index / MAX_DEPTH);
 	
+	if (index % MAX_DEPTH == 0)
+		linkedListIndex -= 1;
+	
 	for(int i = linkedListIndex + 1; i < numSteps; i++)
 	{		
 		((node**)v->data)[i] = (((node**)v->data)[i])->next;
+		system("cls");
+		printVector(v);
 	}
+	
+	printVector(v);
 	
 	node* befTargetNode = get_node_at_index(v, index - 1);
 	node* targetNode = befTargetNode->next;		
 	befTargetNode->next = targetNode->next;
+	
+	printVector(v);
+	
 	free(targetNode->nodePointer);
 	free(targetNode);
+	
+	printVector(v);
 	
 	v->size--;
 	
@@ -307,5 +363,13 @@ int remove_at(vector* v, int index)
 
 int destroy_vector(vector* v)
 {
+	int r = destroy_linked_list(((node**)v->data)[0]);
 	
+	if (r != 1)
+		return -1;
+		
+	free(((node**)v->data));
+	free(v);
+	
+	return 0;
 }
